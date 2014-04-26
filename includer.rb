@@ -20,7 +20,7 @@ class Includer
 		full_path = nil
 		
 		if path.start_with? "/"
-			full_path Pathname.new( path )
+			full_path = Pathname.new( path )
 		else
 			full_path = Pathname.new( "/#{cwd}/#{path}" )
 		end
