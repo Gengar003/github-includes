@@ -9,7 +9,7 @@ class PropertyConfigurer
 		
 		prop_file.lines do |line|
 			splat = line.split("=",2)
-			@properties[ splat[0] ] = splat[1]
+			@properties[ splat[0] ] = splat[1].rstrip
 		end
 	end
 
