@@ -41,7 +41,7 @@ class Includer
 			
 			spacing = ""
 			
-			if whitespace ~= /^\s*$/
+			if whitespace =~ /^\s*$/
 				spacing = whitespace
 			end
 			
