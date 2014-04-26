@@ -32,4 +32,4 @@ puts "getting #{code_file}<br/><hr>"
 
 code_data = demo.process_file( code_file )
 
-puts "<textarea width='80%' height='60%'>#{code_data}</textarea>"
+puts "<textarea rows='30' cols='100'>#{code_data}</textarea>"
