@@ -31,7 +31,7 @@ class Includer
 		begin
 			contents = open( "#{@source_root}#{full_path}" ).read
 		rescue OpenURI::HTTPError => error
-			return prettyprint_error( "HTTP error while reading [#{full_path}]: [#{error.io.status}]" )
+			return prettyprint_error( "HTTP error while reading [#{full_path}]: [#{error.io.status}]", trace )
 		end
 		
 		subbed_contents = @property_source.insert_properties( contents )
