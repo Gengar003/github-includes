@@ -47,7 +47,7 @@ class Includer
 			
 			includable_file = process_file_internal( new_cwd, filepath, trace )
 			
-			indented_file = includable_file.gsub( /\n(.+)/, "\n#{spacing}\1" )
+			indented_file = includable_file.gsub( /\n(.+)/, "\n#{spacing}\\1" )
 			
 			subbed_contents = subbed_contents.gsub( match, indented_file )
 		end
