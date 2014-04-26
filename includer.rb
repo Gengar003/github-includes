@@ -37,7 +37,7 @@ class Includer
 		
 		subbed_contents = @property_source.insert_properties( contents )
 		
-		contents.scan( /\#\{(.+)\}/ ) do |match, filepath|
+		contents.scan( /(\#\{(.+)\})/ ) do |match, filepath|
 			subbed_contents = subbed_contents.gsub( match, process_file_internal( new_cwd, filepath, trace ) )
 		end
 		
