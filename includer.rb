@@ -12,18 +12,12 @@ class Includer
 	end
 	
 	def process_file(path)
-		return process_file_internal( @source_root, path, [full_path] )
+		return process_file_internal( @source_root, path, [figure_full_path( "/", path )] )
 	end
 	
 	def process_file_internal(cwd, path, trace)
 		
-		full_path = nil
-		
-		if path.start_with? "/"
-			full_path = Pathname.new( path )
-		else
-			full_path = Pathname.new( "/#{cwd}/#{path}" )
-		end
+		full_path = figure_full_path( cwd, path )
 		
 		if trace.include? full_path
 			return prettyprint_error( "Cyclic inclusion", trace )
@@ -57,5 +51,14 @@ class Includer
 		end
 		
 		return error
+	end
+	
+	def figure_full_path(cwd, path)
+		
+		if path.start_with? "/"
+			return Pathname.new( path )
+		else
+			return Pathname.new( "/#{cwd}/#{path}" )
+		end
 	end
 end
