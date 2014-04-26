@@ -1,4 +1,5 @@
 require "open-uri"
+require "pathname"
 
 class Includer
 	
