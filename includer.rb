@@ -37,8 +37,19 @@ class Includer
 		
 		subbed_contents = @property_source.insert_properties( contents )
 		
-		contents.scan( /(\#\{(.+)\})/ ) do |match, filepath|
-			subbed_contents = subbed_contents.gsub( match, process_file_internal( new_cwd, filepath, trace ) )
+		contents.scan( /(.*?)(\#\{(.+)\})/ ) do |whitespace, match, filepath|
+			
+			spacing = ""
+			
+			if whitespace ~= /^\s*$/
+				spacing = whitespace
+			end
+			
+			includable_file = process_file_internal( new_cwd, filepath, trace )
+			
+			indented_file = includable_file.gsub( /\n(.+)/, "\n#{spacing}\1" )
+			
+			subbed_contents = subbed_contents.gsub( match, indented_file )
 		end
 		
 		return subbed_contents
