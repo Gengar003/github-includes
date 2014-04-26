@@ -12,10 +12,10 @@ class Includer
 	end
 	
 	def process_file(path)
-		return process_file( @source_root, path, [full_path] )
+		return process_file_internal( @source_root, path, [full_path] )
 	end
 	
-	def process_file(cwd, path, trace)
+	def process_file_internal(cwd, path, trace)
 		
 		full_path = nil
 		
@@ -42,7 +42,7 @@ class Includer
 		subbed_contents = @property_source.insert_properties( contents )
 		
 		contents.scan( /\#\{(.*+)\}/ ) do |match, filepath|
-			subbed_contents = subbed_contents.gsub( match, process_file( new_cwd, filepath, trace ) )
+			subbed_contents = subbed_contents.gsub( match, process_file_internal( new_cwd, filepath, trace ) )
 		end
 		
 		return subbed_contents
