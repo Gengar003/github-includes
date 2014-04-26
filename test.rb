@@ -22,14 +22,14 @@ demo = Includer.new(
 	GITHUB_SRCROOT,
 	PropertyConfigurer.new( GITHUB_PROPERTIES ) )
 
-if params["script"].nil?
-	puts "Please specify a ?script="
+if params["file"].nil?
+	puts "Please specify a ?file="
 end
 
-script = params["script"]
+code_file = params["file"]
 
-puts "getting #{script}<br/><hr>"
+puts "getting #{code_file}<br/><hr>"
 
-main_lsl = demo.process_file( script )
+code_data = demo.process_file( code_file )
 
-puts main_lsl
+puts "<textarea width='80%' height='60%'>#{code_data}</textarea>"
