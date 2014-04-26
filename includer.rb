@@ -19,6 +19,7 @@ class Includer
 	def process_file_internal(cwd, path, trace)
 		
 		full_path = figure_full_path( cwd, path )
+		new_cwd = full_path.dirname
 		
 		if trace.include? full_path
 			return prettyprint_error( "Cyclic inclusion", trace )
