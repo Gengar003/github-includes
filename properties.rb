@@ -31,9 +31,9 @@ class PropertyConfigurer
 		file_contents.scan( /(\$\{([^\s}]+)(\s[^}]+)?\})/ ) do |match, key, default|
 
 			if merged_properties.include?( key )
-				modded = modded.gsub( Regexp.quote( match ), Regexp.quote( merged_properties[ key ] ) )
+				modded = modded.gsub( /#{Regexp.quote( match )}/, merged_properties[ key ] )
 			elsif !default.nil?
-				modded = modded.gsub( Regexp.quote( match ), Regexp.qoute( default ) )
+				modded = modded.gsub( /#{Regexp.quote( match )}/, default.lstrip )
 			end
 			
 		end

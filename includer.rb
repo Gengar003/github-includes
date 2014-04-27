@@ -40,8 +40,9 @@ class Includer
 		end
 		
 		subbed_contents = @property_source.insert_properties( contents, property_overrides )
+		subbed_contents_copy = subbed_contents
 		
-		contents.scan( /(.*?)(\#\{([^ ]+)\s?(.*)?\})/ ) do |whitespace, match, filepath, properties|
+		subbed_contents_copy.scan( /(.*?)(\#\{([^ ]+)\s?(.*)?\})/ ) do |whitespace, match, filepath, properties|
 			
 			spacing = ""
 			
