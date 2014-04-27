@@ -40,10 +40,10 @@ class Includer
 		end
 		
 		subbed_contents = @property_source.insert_properties( contents, property_overrides )
-		subbed_contents_copy = subbed_contents
+		subbed_contents_copy = String.new( subbed_contents )
 		
-		subbed_contents_copy.scan( /(.*?)(\#\{([^ ]+)\s?(.*)?\})/ ) do |whitespace, match, filepath, properties|
-			
+		subbed_contents_copy.scan( /(^[\t ]*)?(\#\{([^ }]+)\s?([^}]*)?\})/ ) do |whitespace, match, filepath, properties|
+
 			spacing = ""
 			
 			if whitespace =~ /^\s*$/
@@ -71,7 +71,7 @@ class Includer
 			
 			indented_file = includable_file.gsub( /\n(.+)/, "\n#{spacing}\\1" )
 			
-			subbed_contents = subbed_contents.gsub( match, indented_file )
+			subbed_contents = subbed_contents.gsub( /#{Regexp.quote( match )}/, indented_file )
 		end
 		
 		return subbed_contents
