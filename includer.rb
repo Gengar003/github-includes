@@ -35,7 +35,7 @@ class Includer
 			contents = open( file_url ).read
 		rescue OpenURI::HTTPError => error
 			return prettyprint_error( "HTTP error while reading [#{full_path}]: [#{error.io.status}]", trace )
-		rescue URI::InvalidUriError => error
+		rescue URI::InvalidURIError => error
 			return prettyprint_error( "Invalid URL for an included file: [#{file_url}]", trace )
 		end
 		
