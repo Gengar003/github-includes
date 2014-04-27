@@ -53,6 +53,11 @@ class Includer
 				merged_properties = merged_properties.merge( property_overrides )
 				
 				properties.scan( /([^=]+)="(.*)"/ ) do |key, value|
+					
+					if value.nil?
+						value = ""
+					end
+					
 					merged_properties[ key ] = value.rstrip
 				end
 			end
