@@ -13,12 +13,19 @@ class PropertyConfigurer
 		end
 	end
 
-	def insert_properties(file_contents)
+	def insert_properties(file_contents, property_overrides)
 		
+		merged_properties = @properties.merge( property_overrides )
 		modded = file_contents
 		
-		@properties.each do |key, value|
-			modded = modded.gsub(/\$\{#{key}\}/, value)
+		file_contents.scan( /(\$\{([^\s]+)\s?(.*+)?\})/ ) do |match, key, default|
+			
+			if merged_properties.include?( key )
+				modded = modded.gsub( Regex.quote( match ), Regex.quote( merged_properties[ key ] ) )
+			elsif !default.nil?
+				modded = modded.gsub( Regex.quote( match ), Regex.qoute( default ) )
+			end
+			
 		end
 
 		return modded

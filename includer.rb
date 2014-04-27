@@ -13,10 +13,10 @@ class Includer
 	end
 	
 	def process_file(path)
-		return process_file_internal( @source_root, path, [figure_full_path( "/", path )] )
+		return process_file_internal( @source_root, path, [figure_full_path( "/", path )], Hash.new )
 	end
 	
-	def process_file_internal(cwd, path, trace)
+	def process_file_internal(cwd, path, trace, property_overrides)
 		
 		full_path = figure_full_path( cwd, path )
 		new_cwd = full_path.dirname
@@ -35,9 +35,9 @@ class Includer
 			return prettyprint_error( "HTTP error while reading [#{full_path}]: [#{error.io.status}]", trace )
 		end
 		
-		subbed_contents = @property_source.insert_properties( contents )
+		subbed_contents = @property_source.insert_properties( contents, property_overrides )
 		
-		contents.scan( /(.*?)(\#\{(.+)\})/ ) do |whitespace, match, filepath|
+		contents.scan( /(.*?)(\#\{([^ ]+)\s?(.*)?\})/ ) do |whitespace, match, filepath, properties|
 			
 			spacing = ""
 			
@@ -45,7 +45,19 @@ class Includer
 				spacing = whitespace
 			end
 			
-			includable_file = process_file_internal( new_cwd, filepath, trace )
+			merged_properties = property_overrides
+			
+			if !properties.nil?
+				
+				merged_properties = Hash.new
+				merged_properties = merged_properties.merge( property_overrides )
+				
+				properties.scan( /([^=]+)="(.*)"/ ) do |key, value|
+					merged_properties[ key ] = value.rstrip
+				end
+			end
+			
+			includable_file = process_file_internal( new_cwd, filepath, trace, merged_properties )
 			
 			indented_file = includable_file.gsub( /\n(.+)/, "\n#{spacing}\\1" )
 			
