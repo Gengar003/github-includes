@@ -14,6 +14,11 @@ class PropertyConfigurer
 			end
 			
 			splat = line.split("=",2)
+			
+			if splat[1].nil?
+				next
+			end
+			
 			@properties[ splat[0] ] = splat[1].rstrip
 		end
 	end
