@@ -8,6 +8,11 @@ class PropertyConfigurer
 		prop_file = open(url_to_property_file).read
 		
 		prop_file.lines do |line|
+			
+			if line.nil?
+				next
+			end
+			
 			splat = line.split("=",2)
 			@properties[ splat[0] ] = splat[1].rstrip
 		end
