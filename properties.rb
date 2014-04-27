@@ -28,8 +28,8 @@ class PropertyConfigurer
 		merged_properties = @properties.merge( property_overrides )
 		modded = file_contents
 		
-		file_contents.scan( /(\$\{([^\s]+)\s?(.*+)?\})/ ) do |match, key, default|
-			
+		file_contents.scan( /(\$\{([^\s}]+)(\s[^}]+)?\})/ ) do |match, key, default|
+
 			if merged_properties.include?( key )
 				modded = modded.gsub( Regexp.quote( match ), Regexp.quote( merged_properties[ key ] ) )
 			elsif !default.nil?
