@@ -29,10 +29,14 @@ class Includer
 		
 		contents = ""
 		
+		file_url = "#{@source_root}#{full_path}"
+		
 		begin
-			contents = open( "#{@source_root}#{full_path}" ).read
+			contents = open( file_url ).read
 		rescue OpenURI::HTTPError => error
 			return prettyprint_error( "HTTP error while reading [#{full_path}]: [#{error.io.status}]", trace )
+		rescue URI::InvalidUriError => error
+			return prettyprint_error( "Invalid URL for an included file: [#{file_url}]", trace )
 		end
 		
 		subbed_contents = @property_source.insert_properties( contents, property_overrides )
